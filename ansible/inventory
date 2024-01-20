@@ -1,0 +1,12 @@
+
+app      ansible_host=5.42.83.254       ansible_user=ansible    ip=5.42.83.254
+nexus    ansible_host=5.42.84.28        ansible_user=ansible    ip=5.42.84.28
+
+
+[application_nodes]
+app
+
+
+
+[nexus_nodes]
+nexus
