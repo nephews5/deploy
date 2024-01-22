@@ -1,0 +1,27 @@
+# the only required step here is to replace your servers ip address with samples (dont touch 
+# ansible user since setup_ssh_connection role will create a user named ansible)
+
+nexus    ansible_host=1.2.3.4    ansible_user=ansible    ip=1.2.3.4
+app      ansible_host=1.2.3.5    ansible_user=ansible    ip=1.2.3.5
+admin    ansible_host=1.2.3.6    ansible_user=ansible    ip=1.2.3.6
+backup   ansible_host=1.2.3.7    ansible_user=ansible    ip=1.2.3.7
+
+
+[all]
+nexus
+app
+admin
+backup
+
+
+[nexus_nodes]
+nexus
+
+[application_nodes]
+app
+
+[admin_nodes]
+admin
+
+[backup_nodes]
+backup

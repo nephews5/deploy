@@ -1,0 +1,8 @@
+# setup ssh invetory is used to setup ssh connection using ssh key instead of password
+# modify this sample and replace server ip, ssh user and password and port as well
+
+[all]
+nexus      ansible_host=1.2.3.4     ansible_user=root     ansible_password=enter-pass-here    ansible_port=22
+app        ansible_host=1.2.3.5     ansible_user=root     ansible_password=enter-pass-here    ansible_port=22
+admin      ansible_host=1.2.3.6     ansible_user=root     ansible_password=enter-pass-here    ansible_port=22
+backup     ansible_host=1.2.3.7     ansible_user=root     ansible_password=enter-pass-here    ansible_port=22
