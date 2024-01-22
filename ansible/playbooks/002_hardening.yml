@@ -1,0 +1,16 @@
+- hosts: all
+  tasks: 
+    - name: update apt repository index
+      apt:
+        update_cache: yes
+            
+    - name: install fail2ban
+      apt: 
+        name: fail2ban
+        state: present
+
+- hosts: all
+  roles: 
+    - ansible-hardening
+
+
