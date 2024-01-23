@@ -10,3 +10,4 @@ RUN  ansible-galaxy install git+https://github.com/openstack/ansible-hardening
 COPY ansible             /ansible
 COPY .secrets            /secrets
 RUN  chmod +x            /ansible/Makefile
+WORKDIR  /ansible
