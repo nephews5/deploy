@@ -1,12 +1,26 @@
+# your inventory should looks like this: 
 
-app      ansible_host=5.42.83.254       ansible_user=ansible    ip=5.42.83.254
-nexus    ansible_host=5.42.84.28        ansible_user=ansible    ip=5.42.84.28
+nexus    ansible_host=1.2.3.4    ansible_user=ansible    ip=1.2.3.4
+app      ansible_host=1.2.3.5    ansible_user=ansible    ip=1.2.3.5
+admin    ansible_host=1.2.3.6    ansible_user=ansible    ip=1.2.3.6
+backup   ansible_host=1.2.3.7    ansible_user=ansible    ip=1.2.3.7
 
 
-[application_nodes]
+[all]
+nexus
 app
-
+admin
+backup
 
 
 [nexus_nodes]
 nexus
+
+[application_nodes]
+app
+
+[admin_nodes]
+admin
+
+[backup_nodes]
+backup
