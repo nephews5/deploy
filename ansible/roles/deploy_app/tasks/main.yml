@@ -1,0 +1,11 @@
+---
+
+- name: apply server custom configs
+  include_playbooks: server_custom_configs
+
+- name: apply docker custom configs
+  include_playbooks: docker_custom_configs
+
+- name: copy compose and env file to server
+
+- name: run compose services
