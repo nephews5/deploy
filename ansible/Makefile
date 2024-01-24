@@ -1,5 +1,6 @@
 000-config-host-ssh-client:
 	ansible-playbook playbooks/000_config_host_ssh_client.yml
+	ansible/ssh-agent-initializer.sh
 
 001-setup-ssh-connection:
 	ansible-playbook -i roles/setup_ssh_connection/inventory playbooks/001_setup_ssh_connection.yml
