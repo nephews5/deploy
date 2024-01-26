@@ -1,26 +1,25 @@
 # your inventory should looks like this: 
+# the only required step here is to replace your servers ip address with samples (dont touch 
+# ansible user since setup_ssh_connection role will create a user named ansible)
 
-nexus    ansible_host=1.2.3.4    ansible_user=ansible    ip=1.2.3.4
-app      ansible_host=1.2.3.5    ansible_user=ansible    ip=1.2.3.5
-admin    ansible_host=1.2.3.6    ansible_user=ansible    ip=1.2.3.6
-backup   ansible_host=1.2.3.7    ansible_user=ansible    ip=1.2.3.7
 
+
+ app                ansible_host=1.2.3.5    ansible_user=ansible    ip=1.2.3.5     ansible_port=3443
+ backup             ansible_host=1.2.3.7    ansible_user=ansible    ip=1.2.3.7     ansible_port=3443
+ docker_registry    ansible_host=1.2.3.4    ansible_user=ansible    ip=1.2.3.4     ansible_port=3443
 
 [all]
-nexus
+docker_registry
 app
-admin
 backup
 
 
-[nexus_nodes]
-nexus
+[docker_registry_nodes]
+docker_registry
 
 [application_nodes]
 app
 
-[admin_nodes]
-admin
 
 [backup_nodes]
 backup
