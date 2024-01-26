@@ -10,12 +10,10 @@
     state:       present
     create_home: true
 
-
 - name: create .ssh directory for ansible
   file: 
     path:   /home/ansible/.ssh
     state:  directory
-
 
 - name: copy authorized_keys file
   copy:
@@ -25,7 +23,6 @@
     group: root
     mode:  0600
 
-
 - name: add ansible user to sudoers
   copy:
     src:   ../files/ansible_sudoer
@@ -33,7 +30,6 @@
     owner: root
     group: root
     mode:  0440
-      
 
 - name: replace sshd_config file with my custom sshd_config
   template:
@@ -43,5 +39,6 @@
     group: root
     mode:  0644
   notify: restart_sshd
+
 
 
