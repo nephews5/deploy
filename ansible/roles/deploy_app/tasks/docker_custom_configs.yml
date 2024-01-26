@@ -13,3 +13,6 @@
     group: root
     mode: 0644
   notify: restart_docker
+
+- name: Immediately trigger handlers
+  meta: flush_handlers

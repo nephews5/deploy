@@ -28,7 +28,17 @@ u can use existing keys in that directory
 --------------------------------------------------
 ### 3- get inside the container and see make file instruction
 
+get inside container: 
+
     docker exec -it adl bash    
+    
+then run this command to initialize ssh-agent
+
+    eval $(ssh-agent -s)
+    ssh-add /secrets/ssh_key
+
+then see make file instructions:
+
     cat ./Makefile
 
 
@@ -38,4 +48,9 @@ u can use existing keys in that directory
 the container will automatically run the playbook 000_setup_container at startup, now you can run playbooks like charm, 
 follow makefile order to deploy nephews-5 project
 
+    make 1-ping-all-nodes
+    make 2-setup-ssh-connection
+    make 3-hardening
+    make 4-deploy-app
 
+    

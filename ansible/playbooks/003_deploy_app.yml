@@ -1,8 +1,3 @@
-- hosts: localhost
-  tasks:
-    - name: update ssh agent
-      shell: eval `ssh-agent -s`
-         
 - hosts: application_nodes
   become: yes
   vars_files:

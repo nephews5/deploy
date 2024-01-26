@@ -1,27 +1,20 @@
-# the only required step here is to replace your servers ip address with samples (dont touch 
-# ansible user since setup_ssh_connection role will create a user named ansible)
 
-nexus    ansible_host=1.2.3.4    ansible_user=ansible    ip=1.2.3.4
-app      ansible_host=1.2.3.5    ansible_user=ansible    ip=1.2.3.5
-admin    ansible_host=1.2.3.6    ansible_user=ansible    ip=1.2.3.6
-backup   ansible_host=1.2.3.7    ansible_user=ansible    ip=1.2.3.7
-
+app                ansible_host=5.42.83.254       ansible_user=ansible    ip=5.42.83.254       ansible_port=3443
+backup             ansible_host=77.232.142.121    ansible_user=ansible    ip=77.232.142.121    ansible_port=3443
+docker_registry    ansible_host=5.42.84.28        ansible_user=ansible    ip=5.42.84.28        ansible_port=3443 
 
 [all]
-nexus
 app
-admin
 backup
+docker_registry
 
 
-[nexus_nodes]
-nexus
+[docker_registry_nodes]
+docker_registry
 
 [application_nodes]
 app
 
-[admin_nodes]
-admin
 
 [backup_nodes]
 backup

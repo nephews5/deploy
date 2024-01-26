@@ -5,9 +5,7 @@ services:
 
  # ADL stands for Ansible - Docker - Linux
   adl:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: neomn110/adl
     container_name: adl
     restart: unless-stopped
     tty: true
