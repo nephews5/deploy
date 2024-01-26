@@ -1,3 +1,12 @@
 ---
-
-- name: create docker external networks
+#==========   apply docker custom configurations   ================
+- name: copy daemon.json to server at path /etc/docker
+  copy: 
+    src: ../files/daemon.json
+    dest: /etc/docker/
+    owner: root
+    group: root
+    mode: 0644
+    
+- name: restart docker service
+  notify: restart_docker
