@@ -1,5 +1,10 @@
 ---
 #==========   apply docker custom configurations   ================
+- name: create docker root directory
+  file: 
+    path: /var/neo/docker
+    state: directory
+
 - name: copy daemon.json to server at path /etc/docker
   copy: 
     src: ../files/daemon.json
