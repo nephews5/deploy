@@ -1,3 +1,13 @@
 ---
+#=============     limit outgoing ports to 80 and 443  ===============
+- name: Set default iptables policy to DROP
+  command: iptables -P OUTPUT DROP
 
-- name: limit outbound ports to 80 and 443
+- name: Allow outgoing TCP traffic on ports 80 and 443
+  command: iptables -A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT
+
+- name: Allow outgoing TCP traffic on ports 80 and 443 
+  command: iptables -A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT
+
+
+
