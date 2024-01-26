@@ -1,9 +1,13 @@
+
 - hosts: localhost
-  tasks: 
-    - name: add private key to ssh client
-      shell: |
-         eval `ssh-agent -s`
-         ssh-add /secrets/ssh_key
+  tasks:
+      
+    - name: enable ssh agent forwarding
+      replace: 
+        path: /etc/ssh/ssh_config
+        regexp: '^# *ForwardAgent.*$'
+        replace: 'ForwardAgent yes'
 
     - name: write ssh public key content to /ansible/roles/setup_ssh_connection/files/authorized_keys
       shell: echo /secrets/ssh_key.pub > /ansible/roles/setup_ssh_connection/files/authorized_keys
+

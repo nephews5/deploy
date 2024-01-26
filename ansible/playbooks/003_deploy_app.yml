@@ -1,7 +1,12 @@
+- hosts: localhost
+  tasks:
+    - name: update ssh agent
+      shell: eval `ssh-agent -s`
+         
 - hosts: application_nodes
   become: yes
   vars_files:
     - ../group_vars/application_nodes.yml
   roles:
-    # - install_docker
+    - install_docker
     - deploy_app

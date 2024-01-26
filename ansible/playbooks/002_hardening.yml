@@ -1,4 +1,13 @@
+- hosts: localhost
+  tasks:
+    - name: update ssh agent
+      shell: eval `ssh-agent -s`
+
+
+
 - hosts: all
+  vars_files:
+    - ../group_vars/all.yml
   become: yes
   tasks: 
     - name: update apt repository index
@@ -19,34 +28,43 @@
       loop:
         - 80 
         - 443
+      delegate_to: app
 
     - name: Insert rule to allow outbound traffic on port 3443 for Ansible
       iptables:
         chain: OUTPUT
         protocol: tcp 
-        destination_port: 3443
+        destination_port: "{{ ssh_port }}"
         jump: ACCEPT
+      delegate_to: app
 
-    # - name: Insert rule to allow inbound traffic from Ansible on port 3443 
-    #   iptables:
-    #     chain: INPUT 
-    #     protocol: tcp
-    #     source_port: 3443
-    #     jump: ACCEPT
-    #
-    # - name: Set default OUTPUT chain policy to DROP
-    #   iptables:
-    #     chain: OUTPUT
-    #     policy: REJECT
-    # - name: ensure iptables directory is present
-    #   file: 
-    #     path: /etc/sysconfig/iptables
-    #     state: directory
-    #
-    # - name: Save iptables rules
-    #   command: iptables-save > /etc/sysconfig/iptables
-    #   become: yes
+    - name: Insert rule to allow inbound traffic from Ansible on port 3443 
+      iptables:
+        chain: INPUT 
+        protocol: tcp
+        source_port: 3443
+        jump: ACCEPT
+      delegate_to: app
     
+     # - name: Set default OUTPUT chain policy to DROP
+     #   iptables:
+     #     chain: OUTPUT
+     #     policy: REJECT
+      # delegate_to: app
+           
+    - name: ensure iptables directory is present
+      file: 
+        path: /etc/sysconfig/iptables
+        state: directory
+      delegate_to: app
+    
+    - name: Save iptables rules
+      command: iptables-save > /etc/sysconfig/iptables
+      become: yes
+      delegate_to: app
+    
+
+
 
 - hosts: all
   become: yes

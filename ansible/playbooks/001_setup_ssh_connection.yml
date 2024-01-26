@@ -1,10 +1,13 @@
 ---
-# - hosts: localhost  
-#   tasks:
-#     - name: remove known hosts file
-#       file:
-#         path: /root/.ssh/known_hosts
-#         state: absent
+- hosts: localhost
+  tasks:
+    - name: update ssh agent
+      shell: eval `ssh-agent -s`
+
+    - name: remove known hosts file
+      file:
+        path: /root/.ssh/known_hosts
+        state: absent
 
 - hosts: all
   become: yes
