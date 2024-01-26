@@ -5,9 +5,71 @@
 
 - name: apply docker custom configs
   include_playbooks: docker_custom_configs
+
+- name: create nephews5 directory 
+  path: /home/ansible/
+  state: directory
     
-- name: copy compose and env file to server
+- name: copy compose file to server
+  copy:
+    src: ../files/docker-compose.yml
+    dest: /home/ansible/nephews5
+    owner: ansible
+    group: ansible
+    mode: 0644
 
-- name: create docker external networks
+- name: copy env file to server
+  copy:
+    src: ../files/.env
+    dest: /home/ansible/nephews5
+    owner: ansible
+    group: ansible
+    mode: 0644
 
-- name: run compose services
+
+#==========   create docker external networks   ================
+- name: Create gateway (docker external network)
+  docker_network:
+    name: gateway
+    # driver: bridge
+    # ipam_config:
+    #   - subnet: 172.16.238.0/24
+    #     gateway: 172.16.238.1
+    # appends: yes
+    # force: yes
+    # scope: local
+    external: yes
+    state: present
+      
+- name: create app (docker external network)
+  docker_network:
+    name: app
+    external: yes
+    state: present
+
+- name: create db (docker external network)
+  docker_network:
+    name: db
+    external: yes
+    state: present
+
+#============   run docker containers using docker-compose file   =========
+- name: Tear down existing services
+  community.docker.docker_compose:
+    project_src: /home/ansible/nephews5
+    state: absent
+
+- name: Create and start services
+  community.docker.docker_compose:
+    project_src: /home/ansible/nephews5
+  register: output
+
+- name: Show results
+  debug:
+    var: output
+  check_mode: yes
+
+
+
+
+
