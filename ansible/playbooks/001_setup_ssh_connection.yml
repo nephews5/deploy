@@ -1,11 +1,15 @@
 ---
-- hosts: localhost  
-  tasks:
-    - name: remove known hosts file
-      file:
-        path: /root/.ssh/known_hosts
-        state: absent
+# - hosts: localhost  
+#   tasks:
+#     - name: remove known hosts file
+#       file:
+#         path: /root/.ssh/known_hosts
+#         state: absent
 
 - hosts: all
+  become: yes
+  become_user: root
+  vars_files:
+    - ../group_vars/all.yml
   roles:
     - setup_ssh_connection

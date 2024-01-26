@@ -1,4 +1,5 @@
 - hosts: all
+  become: yes
   tasks: 
     - name: update apt repository index
       apt:
@@ -9,7 +10,47 @@
         name: fail2ban
         state: present
 
+    - name: Insert rule to allow outbound traffic on ports 80 and 443
+      iptables:
+        chain: OUTPUT
+        protocol: tcp
+        destination_port: "{{ item }}" 
+        jump: ACCEPT
+      loop:
+        - 80 
+        - 443
+
+    - name: Insert rule to allow outbound traffic on port 3443 for Ansible
+      iptables:
+        chain: OUTPUT
+        protocol: tcp 
+        destination_port: 3443
+        jump: ACCEPT
+
+    # - name: Insert rule to allow inbound traffic from Ansible on port 3443 
+    #   iptables:
+    #     chain: INPUT 
+    #     protocol: tcp
+    #     source_port: 3443
+    #     jump: ACCEPT
+    #
+    # - name: Set default OUTPUT chain policy to DROP
+    #   iptables:
+    #     chain: OUTPUT
+    #     policy: REJECT
+    # - name: ensure iptables directory is present
+    #   file: 
+    #     path: /etc/sysconfig/iptables
+    #     state: directory
+    #
+    # - name: Save iptables rules
+    #   command: iptables-save > /etc/sysconfig/iptables
+    #   become: yes
+    
+
 - hosts: all
+  become: yes
+  become_user: root
   roles: 
     - ansible-hardening
 
