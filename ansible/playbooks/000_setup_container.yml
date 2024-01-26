@@ -9,5 +9,5 @@
         replace: 'ForwardAgent yes'
 
     - name: write ssh public key content to /ansible/roles/setup_ssh_connection/files/authorized_keys
-      shell: echo /secrets/ssh_key.pub > /ansible/roles/setup_ssh_connection/files/authorized_keys
+      shell: cat ../secrets/ssh_key.pub > roles/setup_ssh_connection/files/authorized_keys
 
