@@ -1,75 +1,47 @@
 ---
-
-- name: apply server custom configs
-  include_playbooks: server_custom_configs
-
 - name: apply docker custom configs
-  include_playbooks: docker_custom_configs
-
+  import_tasks: docker_custom_configs.yml
+    
 - name: create nephews5 directory 
-  path: /home/ansible/
-  state: directory
+  file: 
+    path: /home/ansible/nephews5
+    state: directory
     
 - name: copy compose file to server
   copy:
     src: ../files/docker-compose.yml
     dest: /home/ansible/nephews5
-    owner: ansible
-    group: ansible
-    mode: 0644
 
 - name: copy env file to server
   copy:
     src: ../files/.env
     dest: /home/ansible/nephews5
-    owner: ansible
-    group: ansible
-    mode: 0644
 
+- name: Create required docker external networks
+  shell: |
+    docker network create gateway  || true
+    docker network create app      || true
+    docker network create db       || true   
+  changed_when: false
+  register: result
 
-#==========   create docker external networks   ================
-- name: Create gateway (docker external network)
-  docker_network:
-    name: gateway
-    # driver: bridge
-    # ipam_config:
-    #   - subnet: 172.16.238.0/24
-    #     gateway: 172.16.238.1
-    # appends: yes
-    # force: yes
-    # scope: local
-    external: yes
-    state: present
-      
-- name: create app (docker external network)
-  docker_network:
-    name: app
-    external: yes
-    state: present
-
-- name: create db (docker external network)
-  docker_network:
-    name: db
-    external: yes
-    state: present
+- name: docker network creation result
+  debug:
+    var: result.stdout
+  changed_when: false
 
 #============   run docker containers using docker-compose file   =========
-- name: Tear down existing services
-  community.docker.docker_compose:
-    project_src: /home/ansible/nephews5
-    state: absent
+- name: login into dockerhub to be able to pull images
+  shell: docker login -u {{DOCKER_USER}} -p {{DOCKER_PASS}}
+  changed_when: false
 
 - name: Create and start services
-  community.docker.docker_compose:
-    project_src: /home/ansible/nephews5
-  register: output
+  shell: docker compose -f /home/ansible/nephews5/docker-compose.yml up -d 
+  changed_when: false
+  register: result
 
-- name: Show results
+- name: docker compose up result result
   debug:
-    var: output
-  check_mode: yes
-
-
-
-
+    var: result.stdout
+  changed_when: false
 

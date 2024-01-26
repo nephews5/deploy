@@ -7,6 +7,4 @@
     owner: root
     group: root
     mode: 0644
-    
-- name: restart docker service
   notify: restart_docker
