@@ -1,0 +1,7 @@
+[all]
+app                  ansible_host=5.42.83.254        ansible_user=root     ansible_password=nephews-5     ansible_port=22
+backup               ansible_host=77.232.142.121     ansible_user=root     ansible_password=nephews-5     ansible_port=22
+docker_resigtry      ansible_host=5.42.84.28         ansible_user=root     ansible_password=nephews-5     ansible_port=22
+
+[application_nodes] 
+app   

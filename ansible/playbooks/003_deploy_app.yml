@@ -1,0 +1,7 @@
+- hosts: application_nodes
+  become: yes
+  vars_files:
+    - ../group_vars/application_nodes.yml
+  roles:
+    - install_docker
+    - deploy_app

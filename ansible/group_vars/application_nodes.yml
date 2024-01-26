@@ -1,0 +1,5 @@
+# put your docker private registry credentials here
+DOCKER_USER: neomn110
+# this is a read only and temp token, using this token u can only read the private repo's 
+# so no worries to put it on git to avoid confusion when user dont want to use docker       
+DOCKER_PASS: dckr_pat_gXsZr_45nwbnXc__oX0hMptrN0o  

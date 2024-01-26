@@ -1,0 +1,47 @@
+---
+- name: apply docker custom configs
+  import_tasks: docker_custom_configs.yml
+    
+- name: create nephews5 directory 
+  file: 
+    path: /home/ansible/nephews5
+    state: directory
+    
+- name: copy compose file to server
+  copy:
+    src: ../files/docker-compose.yml
+    dest: /home/ansible/nephews5
+
+- name: copy env file to server
+  copy:
+    src: ../files/.env
+    dest: /home/ansible/nephews5
+
+- name: Create required docker external networks
+  shell: |
+    docker network create gateway  || true
+    docker network create app      || true
+    docker network create db       || true   
+  changed_when: false
+  register: result
+
+- name: docker network creation result
+  debug:
+    var: result.stdout
+  changed_when: false
+
+#============   run docker containers using docker-compose file   =========
+- name: login into dockerhub to be able to pull images
+  shell: docker login -u {{DOCKER_USER}} -p {{DOCKER_PASS}}
+  changed_when: false
+
+- name: Create and start services
+  shell: docker compose -f /home/ansible/nephews5/docker-compose.yml up -d 
+  changed_when: false
+  register: result
+
+- name: docker compose up result result
+  debug:
+    var: result.stdout
+  changed_when: false
+

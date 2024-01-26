@@ -1,0 +1,13 @@
+
+- hosts: localhost
+  tasks:
+      
+    - name: enable ssh agent forwarding
+      replace: 
+        path: /etc/ssh/ssh_config
+        regexp: '^# *ForwardAgent.*$'
+        replace: 'ForwardAgent yes'
+
+    - name: write ssh public key content to /ansible/roles/setup_ssh_connection/files/authorized_keys
+      shell: cat ../secrets/ssh_key.pub > roles/setup_ssh_connection/files/authorized_keys
+

@@ -1,0 +1,55 @@
+- hosts: all
+  vars_files:
+    - ../group_vars/all.yml
+  become: yes
+  tasks: 
+    - name: update apt repository index
+      apt:
+        update_cache: yes
+            
+    - name: install fail2ban
+      apt: 
+        name: fail2ban
+        state: present
+
+    - name: Insert rule to allow outbound traffic on ports 80 and 443
+      iptables:
+        chain: OUTPUT
+        protocol: tcp
+        destination_port: "{{ item }}" 
+        jump: ACCEPT
+      loop:
+        - 80 
+        - 443
+      delegate_to: app
+
+    - name: Insert rule to allow outbound traffic on port 3443 for Ansible
+      iptables:
+        chain: OUTPUT
+        protocol: tcp 
+        destination_port: "{{ ssh_port }}"
+        jump: ACCEPT
+      delegate_to: app
+
+    - name: Insert rule to allow inbound traffic from Ansible on port 3443 
+      iptables:
+        chain: INPUT 
+        protocol: tcp
+        source_port: 3443
+        jump: ACCEPT
+      delegate_to: app
+    
+     # - name: Set default OUTPUT chain policy to DROP
+     #   iptables:
+     #     chain: OUTPUT
+     #     policy: REJECT
+      # delegate_to: app
+           
+
+- hosts: all
+  become: yes
+  become_user: root
+  roles: 
+    - ansible-hardening
+
+
