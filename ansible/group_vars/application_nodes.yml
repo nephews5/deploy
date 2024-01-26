@@ -1,0 +1,4 @@
+# put your docker private registry credentials here
+DOCKER_USER: neomn110
+DOCKER_PASS: dckr_pat_gXsZr_45nwbnXc__oX0hMptrN0o  # this is a read only token, using this token u can only read the private repo's
+                                                   # so i let it be here to avoid confusion when user dont want to use docker
